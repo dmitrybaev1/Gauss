@@ -27,10 +27,24 @@ namespace Lab1
                                 switch (n)
                                 {
                                     case 1:
-                                        InputConsole();
+                                        try
+                                        {
+                                            InputConsole();
+                                        }
+                                        catch(ArgumentException e)
+                                        {
+                                            Console.WriteLine(e.Message);
+                                        }
                                         break;
                                     case 2:
-                                        InputFile();
+                                        try
+                                        {
+                                            InputFile();
+                                        }
+                                        catch (ArgumentException e)
+                                        {
+                                            Console.WriteLine(e.Message);
+                                        }
                                         break;
                                     case 3:
                                         InputRandom();
@@ -73,8 +87,7 @@ namespace Lab1
         }
         static void InputFile()
         {
-            bool isCorrect = true;
-            string path = @"C:\Users\dmitr\Documents\vychmat\Lab1\Lab1.txt";
+            string path = @"C:\Users\dmitr\Documents\vychmat\Laba1\Lab1.txt";
             string[] s = File.ReadAllLines(path);
             lines = new Line[s.Length];
                 for (int i = 0; i < s.Length; i++)
@@ -87,22 +100,15 @@ namespace Lab1
                         {
                             if (!decimal.TryParse(arr[j], out d[j]))
                             {
-                                isCorrect = false;
-                                break;
+                                throw new ArgumentException("Некорректный ввод элементов.");
                             }
                         }
                     }
                     else
-                        isCorrect = false;
-                if (isCorrect)
+                        throw new ArgumentException("Матрица имеет неверный формат.");
                     lines[i] = new Line(d);
-                else
-                    break;
                 }
-            if (isCorrect)
                 Init();
-            else
-                IncorrectOutput();
         }
         static void InputRandom()
         {
@@ -148,24 +154,45 @@ namespace Lab1
                         Console.WriteLine("Количество неизвестных должно быть больше 1 и не более 20!");               
             }
             Console.WriteLine("Введите коэффициенты:");
+            /* for (int i = 0; i < d; i++)
+             {
+                 decimal[] arr = new decimal[lines.Length+1];
+                 for (int j = 0; j < (d + 1); j++)
+                 {
+                     if (j != d)
+                     {
+                         Console.Write((j + 1) + " коэффициент " + (i + 1) + " строки:");
+                     }
+                     else
+                     {
+                         Console.Write("Свободный коэффициент " + (i + 1) + " строки:");
+                     }
+                     while (!decimal.TryParse(Console.ReadLine(), out arr[j]))
+                     {
+                         IncorrectOutput();
+                     }
+                 }
+                 lines[i] = new Line(arr);
+             }
+             Init();*/
             for (int i = 0; i < d; i++)
             {
-                decimal[] arr = new decimal[lines.Length+1];
-                for (int j = 0; j < (d + 1); j++)
+                Console.Write(i+1 + " строка:");
+                string s = Console.ReadLine();
+                string[] strarr = s.Split(' ');
+                decimal[] arr = new decimal[strarr.Length];
+                if (arr.Length==d+1)
                 {
-                    if (j != d)
+                    for (int j = 0; j < arr.Length; j++)
                     {
-                        Console.Write((j + 1) + " коэффициент " + (i + 1) + " строки:");
-                    }
-                    else
-                    {
-                        Console.Write("Свободный коэффициент " + (i + 1) + " строки:");
-                    }
-                    while (!decimal.TryParse(Console.ReadLine(), out arr[j]))
-                    {
-                        IncorrectOutput();
+                        if (!decimal.TryParse(strarr[j], out arr[j]))
+                        {
+                            throw new ArgumentException("Некорректный ввод элементов.");
+                        }
                     }
                 }
+                else
+                    throw new ArgumentException("Матрица имеет неверный формат.");
                 lines[i] = new Line(arr);
             }
             Init();

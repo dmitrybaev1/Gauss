@@ -45,7 +45,7 @@ namespace Lab1
         public Line[] GetTriangularMatrix()
         {
             int k = 0;
-            for (int i = 0; i < lines.Length-1; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (CheckConditions(i))
                 {
