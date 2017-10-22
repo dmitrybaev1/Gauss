@@ -14,10 +14,10 @@ namespace Lab1
  
         bool CheckConditions(int i)
         {
-                if (lines[i].GetElement(i) == 0)
-                    return false;
-                else
-                    return true;
+            if (lines[i].GetElement(i) == 0)
+               return false;
+            else
+               return true;
         }
        /* bool CheckConditions()
         {
